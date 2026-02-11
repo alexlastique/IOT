@@ -1,0 +1,17 @@
+Formatage non rapide de la carte SD en FAT 32
+
+Installer Rasberry imager
+
+Installer Raspberry Pi OS (Legacy, 64-bit) Lite sur la carte SD
+
+Définir :
+
+le nom d'hôte “IOTG2”
+
+la localisation
+
+l’utilisateur “iotg2” mdp “iotg2”
+
+le wifi “Visiteur CCI”
+
+l'accès à distance par mdp
