@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard IoT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #121212;
+            color: white;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+
+        th,
+        td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background: #1e1e1e;
+        }
+
+        tr:nth-child(even) {
+            background: #1a1a1a;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📊 Table Mesures (BDD SQLite)</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Distance (cm)</th>
+                <th>Température (°C)</th>
+                <th>Humidité (%)</th>
+                <th>Son</th>
+                <th>Luminosité</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody id="mesuresTable"></tbody>
+    </table>
+
+    <h1>🖼️ Photos Stockées Raspberry</h1>
+    <div class="gallery" id="photoGallery"></div>
+
+    <script>
+
+        const API_BASE = "http://10.160.24.236:8000";
+
+        // 🔹 Charger mesures BDD
+        async function loadMesures() {
+            try {
+                const response = await fetch(API_BASE + "/mesures");
+                const data = await response.json();
+
+                const table = document.getElementById("mesuresTable");
+                table.innerHTML = "";
+
+                data.forEach(m => {
+                    const row = `
+                <tr>
+                    <td>${m.id}</td>
+                    <td>${m.Dist}</td>
+                    <td>${m.Temp}</td>
+                    <td>${m.Hum}</td>
+                    <td>${m.Son}</td>
+                    <td>${m.Lum}</td>
+                    <td>${m.timestamp}</td>
+                </tr>
+            `;
+                    table.innerHTML += row;
+                });
+
+            } catch (error) {
+                console.error("Erreur mesures:", error);
+            }
+        }
+
+        // 🔹 Charger photos
+        async function loadPhotos() {
+            try {
+                const response = await fetch(API_BASE + "/photos-list");
+                const photos = await response.json();
+
+                const gallery = document.getElementById("photoGallery");
+                gallery.innerHTML = "";
+
+                photos.forEach(photo => {
+                    const img = document.createElement("img");
+                    img.src = API_BASE + "/photos/" + photo;
+                    gallery.appendChild(img);
+                });
+
+            } catch (error) {
+                console.error("Erreur photos:", error);
+            }
+        }
+
+        loadMesures();
+        loadPhotos();
+
+    </script>
+
+</body>
+
+</html>
