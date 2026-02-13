@@ -1,0 +1,6 @@
+point sécu :
+	1) les données ne sont pas chiffrer
+	2) en cas de coupure de courant rien ne démarre automatiquement
+comment les régler :
+	1) chiffrer le canal avec une clef priver et une publique
+	2) créer un PowerShell de démarrage 

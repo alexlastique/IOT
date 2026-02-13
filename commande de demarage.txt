@@ -1,0 +1,10 @@
+commande de demarage :
+	sudo nmcli device wifi hotspot ssid iotg2wifi password iotg2wifi ifname wlan0
+	nmcli dev wifi show-password
+	cd api-capteurs/
+	source venv/bin/activate
+	python script.py 
+    deuxieme terminal :
+	cd api-capteurs/
+	source venv/bin/activate
+	uvicorn main:app --host 0.0.0.0 --port 8000
